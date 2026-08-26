@@ -6,14 +6,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap">
 <style>
   :root{
-    --bg:#0A0C0A; --bg2:#070807; --panel:#111511; --panel-2:#0C0F0C;
+    --bg:#0A0C0A; --panel:#111511; --panel-2:#0C0F0C;
     --ink:#F4F8F2; --muted:#93A08F; --faint:#5E6B5C;
     --border:#1E251D; --border-2:#2B342A;
-    --kick:#53FC18; --kick-dim:#3fbf16; --kick-glow:rgba(83,252,24,.18);
+    --kick:#53FC18; --kick-glow:rgba(83,252,24,.18);
+    --danger:#FF4D4D;
     --sheet:#53FC18; --doc:#2EA6FF; --slides:#FFB020; --file:#8A97A0;
-    /* neon team accents on black */
-    --t-admin:#53FC18; --t-mod:#2EA6FF; --t-kpp:#B57BFF; --t-sup:#29E5D4;
-    --t-tech:#9AA7B0; --t-fraud:#FF4D4D; --t-part:#FFB020; --t-bg:#FF5CAA; --t-ost:#7C8A80;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -27,63 +25,65 @@
   a{color:inherit; text-decoration:none}
   .wrap{max-width:1160px; margin:0 auto; padding:0 24px}
 
-  header{
-    position:sticky; top:0; z-index:20;
-    background:color-mix(in srgb, var(--bg) 82%, transparent);
+  header{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 82%, transparent);
     backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2);
-    border-bottom:1px solid var(--border);
-    box-shadow:0 1px 0 rgba(83,252,24,.08);
-  }
-  .bar{display:flex; align-items:center; gap:16px; padding:15px 0; flex-wrap:wrap}
+    border-bottom:1px solid var(--border); box-shadow:0 1px 0 rgba(83,252,24,.08)}
+  .bar{display:flex; align-items:center; gap:14px; padding:15px 0; flex-wrap:wrap}
   .brand{display:flex; align-items:center; gap:11px; margin-right:auto}
-  .live{position:relative; width:10px; height:10px; border-radius:50%; background:var(--kick); flex:none;
-    box-shadow:0 0 0 0 var(--kick-glow); animation:pulse 2s infinite}
+  .live{width:10px; height:10px; border-radius:50%; background:var(--kick); flex:none; animation:pulse 2s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(83,252,24,.5)}70%{box-shadow:0 0 0 9px rgba(83,252,24,0)}100%{box-shadow:0 0 0 0 rgba(83,252,24,0)}}
-  .mark{font-family:"Archivo", sans-serif; font-weight:900; font-size:24px; letter-spacing:-.03em; line-height:1; text-transform:uppercase}
+  .mark{font-weight:900; font-size:24px; letter-spacing:-.03em; line-height:1; text-transform:uppercase}
   .mark .g{color:var(--kick); text-shadow:0 0 22px var(--kick-glow)}
   .brand .sub{font-family:"Space Mono", monospace; font-size:10.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--faint)}
-  .search{position:relative; flex:1 1 260px; max-width:440px; min-width:200px}
+  .search{position:relative; flex:1 1 240px; max-width:400px; min-width:180px}
   .search svg{position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--faint)}
-  .search input{
-    width:100%; padding:10px 12px 10px 38px; font:inherit; font-size:14px; font-weight:500; color:var(--ink);
-    background:var(--panel); border:1px solid var(--border-2); border-radius:11px; outline:none;
-    transition:border-color .15s, box-shadow .15s;
-  }
+  .search input{width:100%; padding:10px 12px 10px 38px; font:inherit; font-size:14px; font-weight:500; color:var(--ink);
+    background:var(--panel); border:1px solid var(--border-2); border-radius:11px; outline:none; transition:border-color .15s, box-shadow .15s}
   .search input::placeholder{color:var(--faint)}
   .search input:focus{border-color:var(--kick); box-shadow:0 0 0 3px var(--kick-glow)}
-  .totals{font-family:"Space Mono", monospace; font-size:12px; color:var(--muted); white-space:nowrap; display:flex; gap:6px; align-items:center}
-  .totals b{color:var(--kick); font-weight:700}
 
-  .filters{display:flex; gap:8px; padding:18px 0 4px; flex-wrap:wrap}
-  .chip{
-    font-family:"Space Mono", monospace; font-size:12px; font-weight:700; padding:6px 13px;
-    border-radius:999px; cursor:pointer; white-space:nowrap; background:var(--panel);
-    color:var(--muted); border:1px solid var(--border-2); transition:all .14s; text-transform:uppercase; letter-spacing:.02em;
-  }
+  .btn{font-family:"Space Mono",monospace; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
+    padding:9px 14px; border-radius:11px; cursor:pointer; white-space:nowrap; border:1px solid var(--border-2);
+    background:var(--panel); color:var(--ink); transition:all .14s; display:inline-flex; align-items:center; gap:7px}
+  .btn:hover{border-color:var(--kick); box-shadow:0 0 14px -5px var(--kick)}
+  .btn.solid{background:var(--kick); color:#07120A; border-color:var(--kick)}
+  .btn.solid:hover{box-shadow:0 0 18px -3px var(--kick)}
+  .btn.on{background:var(--kick); color:#07120A; border-color:var(--kick)}
+  .btn svg{width:15px; height:15px}
+  .menu{position:relative}
+  .menu-pop{position:absolute; right:0; top:calc(100% + 6px); background:var(--panel); border:1px solid var(--border-2);
+    border-radius:12px; padding:6px; display:none; flex-direction:column; min-width:190px; z-index:30; box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .menu-pop.open{display:flex}
+  .menu-pop button{font:inherit; font-size:13px; text-align:left; background:none; border:none; color:var(--ink); padding:9px 11px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:9px}
+  .menu-pop button:hover{background:rgba(255,255,255,.06)}
+  .menu-pop button.warn{color:var(--danger)}
+  .menu-pop hr{border:none; border-top:1px solid var(--border); margin:5px 4px}
+
+  .filters{display:flex; gap:8px; padding:16px 0 4px; flex-wrap:wrap; align-items:center}
+  .chip{font-family:"Space Mono", monospace; font-size:12px; font-weight:700; padding:6px 13px; border-radius:999px; cursor:pointer;
+    white-space:nowrap; background:var(--panel); color:var(--muted); border:1px solid var(--border-2); transition:all .14s; text-transform:uppercase}
   .chip:hover{color:var(--ink); border-color:var(--tc, var(--kick)); box-shadow:0 0 14px -4px var(--tc, var(--kick))}
   .chip .n{opacity:.55; margin-left:6px}
   .chip[aria-pressed="true"]{background:var(--tc, var(--kick)); border-color:var(--tc, var(--kick)); color:#07120A; box-shadow:0 0 18px -3px var(--tc, var(--kick))}
-  .chip[aria-pressed="true"] .n{opacity:.7}
 
-  main{padding:24px 0 70px}
+  .editbanner{display:none; margin:14px 0 0; padding:10px 14px; border:1px dashed var(--kick); border-radius:11px;
+    background:rgba(83,252,24,.06); color:var(--kick); font-family:"Space Mono",monospace; font-size:12px; align-items:center; gap:9px}
+  body.editing .editbanner{display:flex}
+
+  main{padding:22px 0 70px}
   .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(345px,1fr)); gap:18px; align-items:start}
-  .team{
-    background:linear-gradient(180deg, var(--panel), var(--panel-2));
-    border:1px solid var(--border); border-radius:16px; overflow:hidden;
-    transition:border-color .18s, box-shadow .18s;
-  }
+  .team{background:linear-gradient(180deg, var(--panel), var(--panel-2)); border:1px solid var(--border); border-radius:16px; overflow:hidden; transition:border-color .18s, box-shadow .18s}
   .team:hover{border-color:color-mix(in srgb, var(--tc) 45%, var(--border-2)); box-shadow:0 0 30px -14px var(--tc)}
-  .team-head{
-    display:flex; align-items:center; gap:11px; padding:15px 18px;
-    border-bottom:1px solid var(--border);
-    background:linear-gradient(90deg, color-mix(in srgb, var(--tc) 12%, transparent), transparent 70%);
-  }
+  .team-head{display:flex; align-items:center; gap:11px; padding:15px 18px; border-bottom:1px solid var(--border);
+    background:linear-gradient(90deg, color-mix(in srgb, var(--tc) 12%, transparent), transparent 70%)}
   .team-head .rail{width:4px; height:22px; border-radius:2px; background:var(--tc); flex:none; box-shadow:0 0 12px -1px var(--tc)}
-  .team-head h2{font-family:"Archivo", sans-serif; font-weight:800; font-size:15.5px; letter-spacing:-.01em; margin:0; flex:1; text-wrap:balance; text-transform:uppercase}
+  .team-head h2{font-weight:800; font-size:15.5px; letter-spacing:-.01em; margin:0; flex:1; text-wrap:balance; text-transform:uppercase}
   .team-head .count{font-family:"Space Mono", monospace; font-size:12px; font-weight:700; flex:none; color:var(--tc); background:color-mix(in srgb, var(--tc) 15%, transparent); padding:2px 10px; border-radius:999px}
   .docs{list-style:none; margin:0; padding:6px; display:flex; flex-direction:column; gap:2px}
   .row{display:flex; align-items:center; gap:11px; padding:9px 10px; border-radius:10px; transition:background .13s}
   .row:hover{background:rgba(255,255,255,.035)}
+  .doc-link{display:contents}
+  body.editing .doc-link{pointer-events:none}
   .row .tag{font-family:"Space Mono", monospace; font-size:9px; font-weight:700; letter-spacing:.03em; padding:3px 5px; border-radius:5px; flex:none; width:38px; text-align:center; color:#07120A}
   .tag.sheet{background:var(--sheet)} .tag.doc{background:var(--doc)} .tag.slides{background:var(--slides)} .tag.file{background:var(--file)}
   .row .title{font-size:13.5px; font-weight:500; color:var(--ink); flex:1; min-width:0; line-height:1.35}
@@ -91,16 +91,37 @@
   .row .go{color:var(--faint); flex:none; opacity:0; transition:opacity .13s, transform .13s; transform:translateX(-2px)}
   .row:hover .go, .row:focus-within .go{opacity:1; transform:none; color:var(--tc)}
   .row a:focus-visible{outline:2px solid var(--tc); outline-offset:2px; border-radius:6px}
+  .row-actions{display:none; gap:4px; flex:none; margin-left:auto}
+  body.editing .row-actions{display:flex}
+  body.editing .go{display:none}
+  .icon{width:28px; height:28px; display:grid; place-items:center; border-radius:8px; border:1px solid var(--border-2); background:var(--panel); color:var(--muted); cursor:pointer; padding:0}
+  .icon:hover{color:var(--ink); border-color:var(--kick)}
+  .icon.del:hover{color:var(--danger); border-color:var(--danger)}
+  .icon svg{width:14px; height:14px}
   .empty{padding:16px 18px; color:var(--faint); font-size:13px; font-style:italic}
   .team.hidden, .row.hidden{display:none}
 
   .noresults{display:none; text-align:center; padding:70px 20px; color:var(--muted)}
   .noresults.show{display:block}
-  .noresults .big{font-family:"Archivo",sans-serif; font-weight:800; font-size:20px; color:var(--ink); margin-bottom:6px; text-transform:uppercase}
+  .noresults .big{font-weight:800; font-size:20px; color:var(--ink); margin-bottom:6px; text-transform:uppercase}
+
+  /* modal */
+  .overlay{position:fixed; inset:0; background:rgba(0,0,0,.66); backdrop-filter:blur(3px); display:none; z-index:50; align-items:center; justify-content:center; padding:20px}
+  .overlay.open{display:flex}
+  .dialog{width:100%; max-width:460px; background:var(--panel); border:1px solid var(--border-2); border-radius:18px; padding:22px; box-shadow:0 24px 60px rgba(0,0,0,.6)}
+  .dialog h3{margin:0 0 16px; font-weight:800; font-size:18px; text-transform:uppercase; letter-spacing:-.01em}
+  .field{margin-bottom:14px}
+  .field label{display:block; font-family:"Space Mono",monospace; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+  .field input, .field select{width:100%; padding:10px 12px; font:inherit; font-size:14px; color:var(--ink); background:var(--panel-2); border:1px solid var(--border-2); border-radius:10px; outline:none}
+  .field input:focus, .field select:focus{border-color:var(--kick); box-shadow:0 0 0 3px var(--kick-glow)}
+  .field .err{color:var(--danger); font-size:12px; margin-top:6px; display:none}
+  .field .err.show{display:block}
+  .dialog-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:20px}
+  .hint{font-size:12px; color:var(--faint); margin-top:-6px; margin-bottom:14px}
 
   footer{border-top:1px solid var(--border); padding:22px 0 44px; color:var(--faint); font-size:12px; font-family:"Space Mono", monospace}
   footer b{color:var(--muted); font-weight:700}
-  @media (max-width:560px){ .wrap{padding:0 16px} .brand .sub{display:none} .totals{display:none} }
+  @media (max-width:600px){ .wrap{padding:0 16px} .brand .sub{display:none} }
   @media (prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important} }
 </style>
 
@@ -113,33 +134,64 @@
     </div>
     <label class="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="q" type="search" placeholder="Pretraži dokumente…" autocomplete="off" spellcheck="false" aria-label="Pretraga dokumenata">
+      <input id="q" type="search" placeholder="Pretraži…" autocomplete="off" spellcheck="false" aria-label="Pretraga dokumenata">
     </label>
-    <div class="totals"><b id="tDocs">0</b> DOK · <b id="tTeams">0</b> TIMOVA</div>
+    <button class="btn solid" id="addBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Dodaj</button>
+    <button class="btn" id="editToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Uredi</button>
+    <div class="menu">
+      <button class="btn" id="menuBtn" aria-label="Još opcija"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg></button>
+      <div class="menu-pop" id="menuPop">
+        <button id="exportBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Izvezi (za tim)</button>
+        <button id="importBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg>Uvezi fajl</button>
+        <button id="teamBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Novi tim</button>
+        <hr>
+        <button id="resetBtn" class="warn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>Vrati podrazumevano</button>
+      </div>
+    </div>
   </div>
-  <div class="wrap"><div class="filters" id="filters"></div></div>
+  <div class="wrap"><div class="filters" id="filters"></div>
+    <div class="editbanner"><b>Režim uređivanja</b> — koristi ✎ za izmenu, ↔ za premeštanje, ✕ za brisanje. Klik na dokument je pauziran.</div>
+  </div>
 </header>
 
 <main class="wrap">
   <div class="grid" id="grid"></div>
-  <div class="noresults" id="noresults">
-    <div class="big">Nema rezultata</div>
-    <div>Nijedan dokument ne odgovara pretrazi.</div>
-  </div>
+  <div class="noresults" id="noresults"><div class="big">Nema rezultata</div><div>Nijedan dokument ne odgovara pretrazi.</div></div>
 </main>
 
-<footer class="wrap">
-  Izvor: <b>~/DocsHub</b> · prečice se otvaraju u Google Workspace-u · ažurirano <b id="date"></b>
-</footer>
+<footer class="wrap">Izvor: <b>~/DocsHub</b> · izmene se čuvaju u ovom pregledaču · „Izvezi" za deljenje sa timom · ažurirano <b id="date"></b></footer>
+
+<input type="file" id="fileInput" accept="application/json,.json" style="display:none">
+
+<div class="overlay" id="overlay">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <h3 id="dlgTitle">Dodaj dokument</h3>
+    <div class="field">
+      <label for="fTeam">Tim</label>
+      <select id="fTeam"></select>
+    </div>
+    <div class="field">
+      <label for="fUrl">Google link</label>
+      <input id="fUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/…" autocomplete="off">
+      <div class="err" id="errUrl">Nalepi ispravan http(s) link.</div>
+    </div>
+    <div class="field">
+      <label for="fTitle">Naziv <span style="text-transform:none;color:var(--faint)">(opciono)</span></label>
+      <input id="fTitle" type="text" placeholder="npr. Weekly Metrics" autocomplete="off">
+    </div>
+    <div class="dialog-actions">
+      <button class="btn" id="cancelBtn">Otkaži</button>
+      <button class="btn solid" id="saveBtn">Sačuvaj</button>
+    </div>
+  </div>
+</div>
 
 <script>
-const TEAMS = [
-  ["Kick Administracija","admin"], ["Kick Moderacija","mod"], ["Kick KPP moderacija","kpp"],
-  ["Kick Support","sup"], ["Kick Tech support","tech"], ["Kick Fraud","fraud"],
-  ["Kick Partners","part"], ["Kick Belgrade AM","bg"], ["Ostalo","ost"]
-];
-const DATA = {
-  "Kick Administracija": [
+const STORE="docshub_state_v1";
+const COLORS={admin:"#53FC18",mod:"#2EA6FF",kpp:"#B57BFF",sup:"#29E5D4",tech:"#9AA7B0",fraud:"#FF4D4D",part:"#FFB020",bg:"#FF5CAA",ost:"#7C8A80"};
+const PALETTE=["#53FC18","#2EA6FF","#B57BFF","#29E5D4","#FF4D4D","#FFB020","#FF5CAA","#FF8A3D","#7CE0FF","#C6FF3D"];
+const SEED=[
+  ["Kick Administracija","admin",[
     ["Kick Weekly Metrics","https://docs.google.com/spreadsheets/d/1W9oKG2p0FGl0aeXFaeuTevbglM4jK-IBQcuCA47VXPM/edit"],
     ["Kick Monthly Metrics","https://docs.google.com/spreadsheets/d/1mec_HjUUecOnTNsV0lKnspsN04Cz101ujyAGdeLQHGk/edit"],
     ["Kick - Organizovanje slobodnih dana i odmora","https://docs.google.com/spreadsheets/d/1221V3Vp-mzbAZsQ8XyjZamGJFbGKw98tZtcMKfj27Vk/edit"],
@@ -150,112 +202,218 @@ const DATA = {
     ["KICK pulse check - 3rd of August","https://docs.google.com/presentation/d/1NMUN688di_5mj057zVvsVMMVdLPhgOiDpZgx1vjcr-k/edit"],
     ["KICK pulse check - 29th of July","https://docs.google.com/presentation/d/1aU8oO9layuF6p_2lKMvHOriA1_ihgP0ERK5rT0Q7zG8/edit"],
     ["Crisis Management Response Process","https://drive.google.com/file/d/1V78EISK0b8eVKWsugoLedVDQ5icnz9yT/view"]
-  ],
-  "Kick Moderacija": [
+  ]],
+  ["Kick Moderacija","mod",[
     ["KICK Moderacija - Organizovanje","https://docs.google.com/spreadsheets/d/1sIQggN7KuHiUP0BXmk4WhQexZyzsiLWG3pi7JWMC9y8/edit"],
     ["Rejected Appeals","https://docs.google.com/spreadsheets/d/1OMk00w6I5VgeWhiXq2iiUSraSI-C-GIIAkeXnJmQsLM/edit"],
     ["Age Assurance - EU Matrix","https://docs.google.com/spreadsheets/d/14MtEzBnJvAguxxeF-yBxuyFvUx8UnztzanbXRniDD-M/edit"],
     ["Incident Report 05082026 - Fatality shooting","https://docs.google.com/document/d/187IsaAkoBKOXHmWfQ3MXiBpGdWxWcjnJpLXtbx0o8dE/edit"]
-  ],
-  "Kick KPP moderacija": [
+  ]],
+  ["Kick KPP moderacija","kpp",[
     ["KPP QA sheet","https://docs.google.com/spreadsheets/d/1f0nPWv2jf3VfRL2MdyxhYIPrHVjzcEfP-VaF-kdpxAU/edit"],
     ["stuck_on_running_test_filled_final","https://docs.google.com/spreadsheets/d/1uHktFRqjKdim1fa3C_qgOyVEefDzrQiXJFe_Yo71orU/edit"]
-  ],
-  "Kick Support": [
+  ]],
+  ["Kick Support","sup",[
     ["Support Shift Report","https://docs.google.com/document/d/1TaWGxvGyImJgBccz52yal-GRgPwLZXEyhFqEpMfx_J4/edit"],
     ["Shift Report","https://docs.google.com/document/d/1Fu-vVoB9CyyDchI8iuuPVB5CB6B87US_stcvoO_WkZA/edit"],
     ["Mesecni izvestaj Support - Nemanja","https://docs.google.com/document/d/1T68Tz_ir5qM1H2fAWmj2K2Su3d8BgD0hdE_ctVUDhlo/edit"],
     ["EU e-Evidence Requests (KODEX) - Intake & Assessment","https://docs.google.com/document/d/1VlvgxblkhOjK-wzK2Y1H30Ct7vj64qL5OyQM_Vb0DWw/edit"]
-  ],
-  "Kick Tech support": [],
-  "Kick Fraud": [
+  ]],
+  ["Kick Tech support","tech",[]],
+  ["Kick Fraud","fraud",[
     ["Large earners of KPP Botters/Tabbers & possible Fraud","https://docs.google.com/spreadsheets/d/1MBRJhNp5jg7cvVTQu_C7wLDFl_xFq2JulkHgbTJ30-E/edit"],
     ["KPP Brazillian & Portugese Speaking Tabbers & possible Fraud","https://docs.google.com/spreadsheets/d/173vJLgoXFlsNSjXZutjtMTnZiF3jqzio8MZqIJL47BE/edit"]
-  ],
-  "Kick Partners": [
+  ]],
+  ["Kick Partners","part",[
     ["Kick Partner - Weekly Tracker","https://docs.google.com/spreadsheets/d/1WMGiWR7ER7NsnGc7xgN7JPCJWE32LiBNNYNnaB1-oYI/edit"],
     ["BD_Lead_EMEA_interview_guide","https://docs.google.com/spreadsheets/d/1VKfOaxykS8NL8pyFfD3_pU9kZXwdwjiHHi-IIV3H2ws/edit"],
     ["Agency Conversation structure","https://docs.google.com/document/d/1zlKgPlicMUmknWq-JDWKOEIr5Kfc_2HfoKLaNy6Z_Fc/edit"]
-  ],
-  "Kick Belgrade AM": [
+  ]],
+  ["Kick Belgrade AM","bg",[
     ["Russian Leads - Zambo","https://docs.google.com/spreadsheets/d/16DqmiadD41fnGuSN1h1SvesnSRkomtocX2lRlYM1hAA/edit"],
     ["Russian leads tik tok for Zambo","https://drive.google.com/file/d/1dqDwCC6pzL94s8qHg7m1PVeU2IJMNLkh/view"],
     ["Discord POC - Belgrade office","https://docs.google.com/spreadsheets/d/1m99Yg0SzcwGmgEv1r1clPtd5gR_wl6qwQR-MzPeBd8Y/edit"]
-  ],
-  "Ostalo": [
+  ]],
+  ["Ostalo","ost",[
     ["MEBIT Pijaca Lista","https://docs.google.com/spreadsheets/d/1n70k0Rb0AEA-d_Y7KrhkzxQ20fUz3KVpRAEUEyZ-Kos/edit"],
     ["Lotos hrana NOVO","https://docs.google.com/spreadsheets/d/1-hyJoDwEm6it8297ZmDVRLm0MSdIBlXlZwo7O56ty2w/edit"]
-  ]
-};
+  ]]
+];
+
+function seedState(){
+  return SEED.map(([name,slug,docs])=>({name, color:COLORS[slug]||PALETTE[0], docs:docs.map(([title,url])=>({title,url}))}));
+}
+function load(){
+  try{const raw=localStorage.getItem(STORE); if(raw){const s=JSON.parse(raw); if(Array.isArray(s)&&s.length) return s;}}catch(e){}
+  return seedState();
+}
+function save(){ try{localStorage.setItem(STORE, JSON.stringify(state));}catch(e){} }
+let state=load();
+let active="all";
 
 const typeOf = u =>
   u.includes("/spreadsheets/") ? ["sheet","XLS"] :
   u.includes("/document/")     ? ["doc","DOC"] :
   u.includes("/presentation/") ? ["slides","PPT"] :
-  ["file","FILE"];
-const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  u.includes("/presentation")  ? ["slides","PPT"] : ["file","FILE"];
+const esc = s => (s==null?"":String(s)).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 const grid=document.getElementById("grid"), filters=document.getElementById("filters");
 const q=document.getElementById("q"), noresults=document.getElementById("noresults");
-let active="all";
-
-const totalDocs = TEAMS.reduce((n,[t])=>n+DATA[t].length,0);
-document.getElementById("tDocs").textContent = totalDocs;
-document.getElementById("tTeams").textContent = TEAMS.filter(([t])=>DATA[t].length).length;
-
-const mkChip=(label,val,slug,count)=>{
-  const b=document.createElement("button");
-  b.className="chip"; b.dataset.val=val; b.setAttribute("aria-pressed", val==="all");
-  if(slug) b.style.setProperty("--tc",`var(--t-${slug})`);
-  b.innerHTML=esc(label)+(count!=null?` <span class="n">${count}</span>`:"");
-  b.onclick=()=>{active=val;[...filters.children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.val===val));render();};
-  return b;
-};
-filters.appendChild(mkChip("Sve","all",null,totalDocs));
-TEAMS.forEach(([t,slug])=>filters.appendChild(mkChip(t.replace(/^Kick /,""),t,slug,DATA[t].length)));
-
-TEAMS.forEach(([team,slug])=>{
-  const sec=document.createElement("section");
-  sec.className="team"; sec.dataset.team=team;
-  sec.style.setProperty("--tc",`var(--t-${slug})`);
-  const docs=DATA[team];
-  let rows=docs.map(([title,url])=>{
-    const [cls,tag]=typeOf(url);
-    return `<li class="row" data-title="${esc(title.toLowerCase())}">
-      <a href="${esc(url)}" target="_blank" rel="noopener" style="display:contents">
-        <span class="tag ${cls}">${tag}</span>
-        <span class="title">${esc(title)}</span>
-        <span class="go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-      </a></li>`;
-  }).join("");
-  if(!docs.length) rows=`<div class="empty">Još nema dokumenata — dodaj prvi.</div>`;
-  sec.innerHTML=`<div class="team-head"><span class="rail"></span><h2>${esc(team)}</h2><span class="count">${docs.length}</span></div><ul class="docs">${rows}</ul>`;
-  grid.appendChild(sec);
-});
 
 function render(){
+  // chips
+  const totalDocs=state.reduce((n,t)=>n+t.docs.length,0);
+  filters.innerHTML="";
+  const addChip=(label,val,color,count)=>{
+    const b=document.createElement("button");
+    b.className="chip"; b.dataset.val=val; b.setAttribute("aria-pressed", val===active);
+    if(color) b.style.setProperty("--tc",color);
+    b.innerHTML=esc(label)+(count!=null?` <span class="n">${count}</span>`:"");
+    b.onclick=()=>{active=val; render();};
+    filters.appendChild(b);
+  };
+  addChip("Sve","all",null,totalDocs);
+  state.forEach(t=>addChip(t.name.replace(/^Kick /,""), t.name, t.color, t.docs.length));
+
+  // cards
   const term=q.value.trim().toLowerCase();
-  let visibleDocs=0;
-  document.querySelectorAll(".team").forEach(sec=>{
-    const team=sec.dataset.team, teamOk=active==="all"||active===team;
+  grid.innerHTML="";
+  let visibleDocs=0, anyTeam=false;
+  state.forEach((t,ti)=>{
+    const teamOk=active==="all"||active===t.name;
+    const sec=document.createElement("section");
+    sec.className="team"; sec.style.setProperty("--tc",t.color);
+    const ul=document.createElement("ul"); ul.className="docs";
     let shown=0;
-    sec.querySelectorAll(".row").forEach(li=>{
-      const t=li.dataset.title, match=teamOk&&(!term||t.includes(term));
-      li.classList.toggle("hidden",!match);
-      if(match){shown++; visibleDocs++;
-        const el=li.querySelector(".title"), raw=el.textContent;
-        if(term){const i=raw.toLowerCase().indexOf(term);
-          el.innerHTML=i<0?esc(raw):esc(raw.slice(0,i))+"<mark>"+esc(raw.slice(i,i+term.length))+"</mark>"+esc(raw.slice(i+term.length));
-        } else el.textContent=raw;
-      }
+    t.docs.forEach((d,di)=>{
+      const [cls,tag]=typeOf(d.url);
+      const match=teamOk&&(!term||d.title.toLowerCase().includes(term));
+      const li=document.createElement("li"); li.className="row"+(match?"":" hidden");
+      let titleHtml=esc(d.title);
+      if(term){const i=d.title.toLowerCase().indexOf(term); if(i>=0) titleHtml=esc(d.title.slice(0,i))+"<mark>"+esc(d.title.slice(i,i+term.length))+"</mark>"+esc(d.title.slice(i+term.length));}
+      li.innerHTML=`<a class="doc-link" href="${esc(d.url)}" target="_blank" rel="noopener">
+          <span class="tag ${cls}">${tag}</span><span class="title">${titleHtml}</span>
+          <span class="go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        <span class="row-actions">
+          <button class="icon" title="Izmeni" data-act="edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+          <button class="icon" title="Premesti" data-act="move"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7h13M8 7l3-3M8 7l3 3M16 17H3M16 17l-3-3M16 17l-3 3"/></svg></button>
+          <button class="icon del" title="Obriši" data-act="del"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
+        </span>`;
+      li.querySelector('[data-act="edit"]').onclick=()=>openEdit(ti,di);
+      li.querySelector('[data-act="move"]').onclick=()=>moveDoc(ti,di);
+      li.querySelector('[data-act="del"]').onclick=()=>delDoc(ti,di);
+      ul.appendChild(li);
+      if(match){shown++; visibleDocs++;}
     });
-    const isEmptyTeam=!!sec.querySelector(".empty");
-    const showEmpty=isEmptyTeam&&!term&&(active==="all"||active===team);
-    sec.classList.toggle("hidden", !(shown>0||showEmpty));
+    const showEmpty=t.docs.length===0 && !term && (active==="all"||active===t.name);
+    if(!(shown>0||showEmpty)){ return; }
+    anyTeam=true;
+    const head=document.createElement("div"); head.className="team-head";
+    head.innerHTML=`<span class="rail"></span><h2>${esc(t.name)}</h2><span class="count">${t.docs.length}</span>`;
+    sec.appendChild(head);
+    if(t.docs.length===0) ul.innerHTML=`<div class="empty">Još nema dokumenata — klikni „Dodaj".</div>`;
+    sec.appendChild(ul);
+    grid.appendChild(sec);
   });
-  noresults.classList.toggle("show", visibleDocs===0 && !document.querySelector(".team:not(.hidden)"));
+  noresults.classList.toggle("show", !anyTeam);
 }
 q.addEventListener("input",render);
+
+/* ---------- editor ---------- */
+const overlay=document.getElementById("overlay"), fTeam=document.getElementById("fTeam"),
+  fUrl=document.getElementById("fUrl"), fTitle=document.getElementById("fTitle"),
+  errUrl=document.getElementById("errUrl"), dlgTitle=document.getElementById("dlgTitle");
+let editRef=null; // null=add, else {ti,di}
+
+function fillTeams(sel){
+  fTeam.innerHTML="";
+  state.forEach(t=>{const o=document.createElement("option"); o.value=t.name; o.textContent=t.name; fTeam.appendChild(o);});
+  if(sel) fTeam.value=sel;
+}
+function openAdd(){
+  editRef=null; dlgTitle.textContent="Dodaj dokument";
+  fillTeams(active!=="all"?active:null); fUrl.value=""; fTitle.value=""; errUrl.classList.remove("show");
+  overlay.classList.add("open"); setTimeout(()=>fUrl.focus(),40);
+}
+function openEdit(ti,di){
+  editRef={ti,di}; const d=state[ti].docs[di];
+  dlgTitle.textContent="Izmeni dokument"; fillTeams(state[ti].name);
+  fUrl.value=d.url; fTitle.value=d.title; errUrl.classList.remove("show");
+  overlay.classList.add("open"); setTimeout(()=>fTitle.focus(),40);
+}
+function closeModal(){ overlay.classList.remove("open"); }
+function saveModal(){
+  const url=fUrl.value.trim(); if(!/^https?:\/\//i.test(url)){ errUrl.classList.add("show"); fUrl.focus(); return; }
+  let title=fTitle.value.trim(); if(!title){ const [,tg]=typeOf(url); title="Novi "+tg; }
+  const teamName=fTeam.value; const ti=state.findIndex(t=>t.name===teamName);
+  if(editRef){
+    const doc=state[editRef.ti].docs[editRef.di];
+    doc.title=title; doc.url=url;
+    if(editRef.ti!==ti){ state[editRef.ti].docs.splice(editRef.di,1); state[ti].docs.push(doc); }
+  } else { state[ti].docs.push({title,url}); }
+  save(); closeModal(); render();
+}
+function delDoc(ti,di){
+  const d=state[ti].docs[di];
+  if(confirm(`Obrisati „${d.title}" iz ${state[ti].name}?\n(Google dokument ostaje netaknut — briše se samo iz huba.)`)){
+    state[ti].docs.splice(di,1); save(); render();
+  }
+}
+function moveDoc(ti,di){
+  const names=state.map(t=>t.name);
+  const cur=state[ti].name;
+  const list=names.map((n,i)=>`${i+1}. ${n}`).join("\n");
+  const ans=prompt(`Premesti „${state[ti].docs[di].title}" u koji tim?\nUnesi broj:\n\n${list}`, String(ti+1));
+  if(ans==null) return;
+  const idx=parseInt(ans,10)-1;
+  if(isNaN(idx)||idx<0||idx>=state.length||idx===ti) return;
+  const [doc]=state[ti].docs.splice(di,1); state[idx].docs.push(doc); save(); render();
+}
+
+document.getElementById("addBtn").onclick=openAdd;
+document.getElementById("saveBtn").onclick=saveModal;
+document.getElementById("cancelBtn").onclick=closeModal;
+overlay.onclick=e=>{ if(e.target===overlay) closeModal(); };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+fUrl.addEventListener("keydown",e=>{ if(e.key==="Enter") saveModal(); });
+fTitle.addEventListener("keydown",e=>{ if(e.key==="Enter") saveModal(); });
+
+const editToggle=document.getElementById("editToggle");
+editToggle.onclick=()=>{ document.body.classList.toggle("editing"); editToggle.classList.toggle("on"); };
+
+/* menu */
+const menuPop=document.getElementById("menuPop"), menuBtn=document.getElementById("menuBtn");
+menuBtn.onclick=e=>{ e.stopPropagation(); menuPop.classList.toggle("open"); };
+document.addEventListener("click",()=>menuPop.classList.remove("open"));
+menuPop.onclick=e=>e.stopPropagation();
+
+document.getElementById("exportBtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="docshub-data.json"; a.click();
+  URL.revokeObjectURL(a.href); menuPop.classList.remove("open");
+};
+document.getElementById("importBtn").onclick=()=>{ document.getElementById("fileInput").click(); menuPop.classList.remove("open"); };
+document.getElementById("fileInput").onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ const s=JSON.parse(r.result); if(Array.isArray(s)&&s.length){ state=s; save(); render(); alert("Uvezeno ✓"); } else alert("Neispravan fajl."); }catch(err){ alert("Greška pri čitanju fajla."); } };
+  r.readAsText(f); e.target.value="";
+};
+document.getElementById("teamBtn").onclick=()=>{
+  menuPop.classList.remove("open");
+  const name=prompt("Naziv novog tima:","Kick ");
+  if(!name||!name.trim()) return;
+  const color=PALETTE[state.length%PALETTE.length];
+  state.push({name:name.trim(),color,docs:[]}); save(); render();
+};
+document.getElementById("resetBtn").onclick=()=>{
+  menuPop.classList.remove("open");
+  if(confirm("Vratiti na podrazumevani spisak? Sve tvoje izmene u ovom pregledaču biće obrisane.")){
+    state=seedState(); save(); render();
+  }
+};
+
 document.getElementById("date").textContent=new Date().toLocaleDateString("sr-RS");
 render();
 </script>
